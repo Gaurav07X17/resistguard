@@ -1,0 +1,68 @@
+.detail-page { max-width: 1000px; }
+.back-btn { margin-bottom: 1.5rem; }
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sample-id-large {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.detail-header h1 { font-size: 1.8rem; margin-bottom: 0.6rem; }
+.detail-header h1 em { font-style: italic; color: var(--accent-blue); }
+.detail-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.detail-meta {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 200px;
+}
+.detail-meta div { display: flex; flex-direction: column; }
+.detail-meta span { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+.detail-meta strong { font-size: 0.88rem; }
+
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+@media (max-width: 700px) { .detail-grid { grid-template-columns: 1fr; } }
+
+.detail-grid .card h3, .notes-card h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.resistance-summary {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.rs-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.rs-item span { font-size: 0.85rem; font-weight: 700; }
+
+.chart-note { font-size: 0.72rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem; }
+
+.notes-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }

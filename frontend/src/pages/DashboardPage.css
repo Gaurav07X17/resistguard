@@ -1,0 +1,65 @@
+.dashboard { max-width: 1100px; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent-blue);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-value { font-size: 2rem; font-weight: 700; font-family: var(--mono); color: var(--text-primary); }
+.stat-label { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
+.stat-sub   { font-size: 0.72rem; color: var(--text-dim); }
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
+
+.chart-card h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.tech-notice { margin-bottom: 1.5rem; }
+.tech-notice h3 { margin-bottom: 0.5rem; }
+.tech-notice p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+.tech-notice strong { color: var(--accent-green); }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.88rem;
+}
+.data-table th {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+.data-table td em { font-style: italic; color: var(--accent-blue); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg-hover); }
+
+.no-data { color: var(--text-dim); font-size: 0.88rem; text-align: center; padding: 2rem; }
