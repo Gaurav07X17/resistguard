@@ -1,0 +1,151 @@
+.detail-page { max-width: 1000px; }
+
+.back-btn { margin-bottom: 1.5rem; }
+
+/* ─── Header ────────────────────────────────────── */
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.detail-header-left { flex: 1; min-width: 0; }
+
+.sample-id-large {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  display: inline-block;
+  background: rgba(76,201,240,0.06);
+  border: 1px solid rgba(76,201,240,0.12);
+  padding: 2px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.detail-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+  letter-spacing: -0.02em;
+}
+.detail-header h1 em {
+  font-style: italic;
+  color: var(--accent-blue);
+}
+
+.detail-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+
+/* ─── Meta panel ────────────────────────────────── */
+.detail-meta {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 200px;
+  flex-shrink: 0;
+}
+
+.meta-row { display: flex; flex-direction: column; gap: 0.1rem; }
+.meta-label {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.meta-value {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ─── Detail grid ───────────────────────────────── */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 700px) { .detail-grid { grid-template-columns: 1fr; } }
+
+.detail-grid .card h3,
+.notes-card h3 {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+/* ─── Resistance summary bar ────────────────────── */
+.resistance-summary {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.rs-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+}
+
+.rs-count {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rs-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Chart note ────────────────────────────────── */
+.chart-note {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 0.6rem;
+  font-family: var(--mono);
+}
+
+/* ─── Notes card ────────────────────────────────── */
+.notes-card { margin-bottom: 1.25rem; }
+.notes-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+/* ─── MDR flag ──────────────────────────────────── */
+.mdr-banner {
+  background: rgba(240,84,113,0.06);
+  border: 1px solid rgba(240,84,113,0.2);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--accent-red);
+  margin-bottom: 1.25rem;
+}
+.mdr-banner strong { font-weight: 700; }

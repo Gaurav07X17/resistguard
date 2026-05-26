@@ -1,0 +1,153 @@
+.dashboard { max-width: 1100px; }
+
+/* ─── Stat Cards ─────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-mid);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Accent stripe at top */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--card-accent, var(--accent-blue));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* Subtle ambient glow matching the stripe */
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: -20px; left: -20px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, var(--card-glow, rgba(76,201,240,0.06)) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.stat-icon {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
+}
+
+.stat-value {
+  font-size: 2.1rem;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 0.35rem;
+}
+
+.stat-sub {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.1rem;
+}
+
+/* ─── Charts grid ───────────────────────────────── */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 820px) { .charts-grid { grid-template-columns: 1fr; } }
+
+.chart-card h3 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+}
+
+/* ─── Technician notice ─────────────────────────── */
+.tech-notice {
+  margin-bottom: 1.5rem;
+  border-left: 3px solid var(--accent-blue);
+  padding-left: calc(1.5rem - 3px);
+}
+.tech-notice h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.tech-notice p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+.tech-notice strong { color: var(--accent-green); }
+
+/* ─── Pathogen breakdown card ───────────────────── */
+.breakdown-card { margin-bottom: 1.25rem; }
+.breakdown-card h3 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+}
+
+.data-table td em {
+  font-style: italic;
+  color: var(--accent-blue);
+}
+
+/* ─── Resistance rate bar ───────────────────────── */
+.resistance-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.resistance-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 80px;
+}
+.resistance-bar-fill {
+  height: 100%;
+  background: var(--accent-blue);
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
