@@ -10,7 +10,14 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://resistguard.vercel.app',
+    'https://resistguard-git-main-gauravchhetri2006-1943s-projects.vercel.app',
+    'http://localhost:3000'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan('dev'));
 
