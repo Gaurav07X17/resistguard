@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { samplesAPI } from '../utils/api';
+import { useAuth } from '../context/AuthContext';
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis,
   ResponsiveContainer, Tooltip,
@@ -29,9 +30,12 @@ const MetaRow = ({ label, value }) =>
 export default function SampleDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [sample, setSample]   = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState('');
+  const { isResearcher } = useAuth();
+  const [sample, setSample]               = useState(null);
+  const [loading, setLoading]             = useState(true);
+  const [error, setError]                 = useState('');
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleting, setDeleting]           = useState(false);
 
   useEffect(() => {
     samplesAPI.getById(id)
@@ -39,6 +43,18 @@ export default function SampleDetailPage() {
       .catch(() => setError('Sample not found or you do not have access.'))
       .finally(() => setLoading(false));
   }, [id]);
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      await samplesAPI.delete(id);
+      navigate('/samples');
+    } catch {
+      setError('Failed to delete sample. Please try again.');
+      setDeleting(false);
+      setDeleteConfirm(false);
+    }
+  };
 
   if (loading) return <div className="loading-spinner" />;
   if (error)   return <div className="error-box" style={{ margin: '2rem 0' }}>{error}</div>;
@@ -48,23 +64,45 @@ export default function SampleDetailPage() {
     score: ab.result === 'R' ? 3 : ab.result === 'I' ? 2 : ab.result === 'S' ? 1 : 0,
   }));
 
-  const resistantCount     = sample.antibiotics.filter(a => a.result === 'R').length;
-  const intermediateCount  = sample.antibiotics.filter(a => a.result === 'I').length;
-  const susceptibleCount   = sample.antibiotics.filter(a => a.result === 'S').length;
+  const resistantCount    = sample.antibiotics.filter(a => a.result === 'R').length;
+  const intermediateCount = sample.antibiotics.filter(a => a.result === 'I').length;
+  const susceptibleCount  = sample.antibiotics.filter(a => a.result === 'S').length;
   const mdrFlag = resistantCount >= 3;
-
   const collectedDate = new Date(sample.collectedAt).toLocaleDateString('en-IN', { dateStyle: 'long' });
 
   return (
     <div className="detail-page fade-up">
-      <button className="btn btn-ghost btn-sm back-btn" onClick={() => navigate(-1)}>
-        ← Back to Registry
-      </button>
+      {/* Top bar */}
+      <div className="detail-topbar">
+        <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)}>
+          ← Back to Registry
+        </button>
+        {isResearcher && !deleteConfirm && (
+          <button className="btn btn-danger btn-sm" onClick={() => setDeleteConfirm(true)}>
+            🗑 Delete Sample
+          </button>
+        )}
+      </div>
 
       {/* MDR banner */}
       {mdrFlag && (
         <div className="mdr-banner">
           ⚠️ <span><strong>MDR Suspect</strong> — Resistant to {resistantCount} or more antibiotic classes.</span>
+        </div>
+      )}
+
+      {/* Delete confirmation */}
+      {deleteConfirm && (
+        <div className="delete-confirm-banner">
+          <span>⚠️ Permanently delete this sample? This cannot be undone.</span>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button className="btn btn-danger btn-sm" onClick={handleDelete} disabled={deleting}>
+              {deleting ? 'Deleting…' : 'Yes, Delete'}
+            </button>
+            <button className="btn btn-ghost btn-sm" onClick={() => setDeleteConfirm(false)}>
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 
@@ -81,14 +119,14 @@ export default function SampleDetailPage() {
         </div>
 
         <div className="detail-meta">
-          <MetaRow label="Collected"     value={collectedDate} />
-          <MetaRow label="Submitted by"  value={sample.submittedBy?.name} />
-          <MetaRow label="Hospital"      value={sample.location.hospital} />
-          <MetaRow label="Ward"          value={sample.location.ward} />
-          <MetaRow label="Site"          value={sample.location.site} />
-          <MetaRow label="City"          value={sample.location.city} />
-          {sample.patientAge && <MetaRow label="Patient Age"   value={`${sample.patientAge} years`} />}
-          {sample.patientGender && <MetaRow label="Gender" value={sample.patientGender} />}
+          <MetaRow label="Collected"    value={collectedDate} />
+          <MetaRow label="Submitted by" value={sample.submittedBy?.name} />
+          <MetaRow label="Hospital"     value={sample.location.hospital} />
+          <MetaRow label="Ward"         value={sample.location.ward} />
+          <MetaRow label="Site"         value={sample.location.site} />
+          <MetaRow label="City"         value={sample.location.city} />
+          {sample.patientAge    && <MetaRow label="Patient Age" value={`${sample.patientAge} years`} />}
+          {sample.patientGender && <MetaRow label="Gender"      value={sample.patientGender} />}
         </div>
       </div>
 
@@ -112,9 +150,7 @@ export default function SampleDetailPage() {
                   <td style={{ fontFamily: 'var(--mono)', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                     {ab.mic ?? '—'}
                   </td>
-                  <td>
-                    <span className={`badge badge-${ab.result}`}>{ab.result}</span>
-                  </td>
+                  <td><span className={`badge badge-${ab.result}`}>{ab.result}</span></td>
                 </tr>
               ))}
             </tbody>
@@ -142,23 +178,11 @@ export default function SampleDetailPage() {
           <ResponsiveContainer width="100%" height={265}>
             <RadarChart data={radarData} margin={{ top: 10, right: 20, bottom: 10, left: 20 }}>
               <PolarGrid stroke="#1a2540" />
-              <PolarAngleAxis
-                dataKey="antibiotic"
-                tick={{ fill: '#7b8ab8', fontSize: 10 }}
-              />
-              <Radar
-                dataKey="score"
-                stroke="#f05471"
-                fill="#f05471"
-                fillOpacity={0.18}
-                strokeWidth={1.5}
-              />
+              <PolarAngleAxis dataKey="antibiotic" tick={{ fill: '#7b8ab8', fontSize: 10 }} />
+              <Radar dataKey="score" stroke="#f05471" fill="#f05471" fillOpacity={0.18} strokeWidth={1.5} />
               <Tooltip
                 contentStyle={ChartTooltipStyle.contentStyle}
-                formatter={(v) => [
-                  [null, 'Susceptible', 'Intermediate', 'Resistant'][v] ?? 'Unknown',
-                  'Classification'
-                ]}
+                formatter={(v) => [[null, 'Susceptible', 'Intermediate', 'Resistant'][v] ?? 'Unknown', 'Classification']}
               />
             </RadarChart>
           </ResponsiveContainer>
