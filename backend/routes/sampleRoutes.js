@@ -16,6 +16,6 @@ router.route('/')
 router.route('/:id')
   .get(protect, getSampleById)
   .put(protect, authorize('researcher', 'admin'), updateSample)
-  .delete(protect, authorize('admin'), deleteSample);
+  .delete(protect, authorize('researcher', 'admin'), deleteSample);
 
 module.exports = router;
