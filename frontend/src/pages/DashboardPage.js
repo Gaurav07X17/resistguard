@@ -171,7 +171,7 @@ export default function DashboardPage() {
                     outerRadius={78}
                     innerRadius={36}
                     paddingAngle={3}
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    label={false}
                     labelLine={false}
                   >
                     {pieData.map((entry) => (
@@ -185,6 +185,11 @@ export default function DashboardPage() {
                   <Legend
                     iconType="circle"
                     iconSize={8}
+                    formatter={(value, entry) => {
+                      const total = pieData.reduce((s, d) => s + d.value, 0);
+                      const pct = total ? ((entry.payload.value / total) * 100).toFixed(0) : 0;
+                      return `${value} ${pct}%`;
+                    }}
                     wrapperStyle={{ fontSize: '0.78rem', color: '#7b8ab8', paddingTop: '0.5rem' }}
                   />
                 </PieChart>
